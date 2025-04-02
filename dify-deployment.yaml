@@ -14,7 +14,7 @@ metadata:
 # kind: Secret
 # metadata:
 #   name: dify-credentials
-#   namespace: dify
+#   namespace: dify-test
 # data:
 #   # Base64 encoded postgres username, default is postgres
 #   pg-username: cG9zdGdyZXM=
@@ -46,7 +46,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-postgres
   name: dify-postgres
-  namespace: dify
+  namespace: dify-test
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -54,7 +54,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-postgres
   name: dify-postgres
-  namespace: dify
+  namespace: dify-test
 rules:
 - apiGroups:
   - "*"
@@ -69,7 +69,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-postgres
   name: dify-postgres
-  namespace: dify
+  namespace: dify-test
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -82,7 +82,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dify-postgres
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     matchLabels:
@@ -167,7 +167,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-postgres
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     app: dify-postgres
@@ -188,7 +188,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-redis
   name: dify-redis
-  namespace: dify
+  namespace: dify-test
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -196,7 +196,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-redis
   name: dify-redis
-  namespace: dify
+  namespace: dify-test
 rules:
 - apiGroups:
   - "*"
@@ -211,7 +211,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-redis
   name: dify-redis
-  namespace: dify
+  namespace: dify-test
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -224,7 +224,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dify-redis
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     matchLabels:
@@ -279,7 +279,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-redis
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     app: dify-redis
@@ -301,7 +301,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-weaviate
   name: dify-weaviate
-  namespace: dify
+  namespace: dify-test
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -309,7 +309,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-weaviate
   name: dify-weaviate
-  namespace: dify
+  namespace: dify-test
 rules:
 - apiGroups:
   - "*"
@@ -324,7 +324,7 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-weaviate
   name: dify-weaviate
-  namespace: dify
+  namespace: dify-test
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -337,7 +337,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dify-weaviate
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     matchLabels:
@@ -399,7 +399,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-weaviate
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     app: dify-weaviate
@@ -419,7 +419,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dify-sandbox
-  namespace: dify
+  namespace: dify-test
   labels:
     app: dify-sandbox
 spec:
@@ -476,7 +476,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-sandbox
-  namespace: dify
+  namespace: dify-test
 spec:
   ports:
   - port: 8194
@@ -496,7 +496,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ssrf-proxy-config
-  namespace: dify
+  namespace: dify-test
 data:
   squid.conf: |
     acl localnet src 0.0.0.1-0.255.255.255	# RFC 1122 "this" network (LAN)
@@ -558,7 +558,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ssrf-proxy-entrypoint
-  namespace: dify
+  namespace: dify-test
 data:
   docker-entrypoint-mount.sh: |
     #!/bin/bash
@@ -608,7 +608,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dify-ssrf
-  namespace: dify
+  namespace: dify-test
   labels:
     app: dify-ssrf
 spec:
@@ -671,7 +671,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-ssrf
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     app: dify-ssrf
@@ -691,11 +691,10 @@ metadata:
   labels:
     app.kubernetes.io/instance: dify-api
     app: dify-api
-  namespace: dify
+  namespace: dify-test
 spec:
   replicas: 1
   revisionHistoryLimit: 1
-  minReadySeconds: 10
   serviceName: dify-api
   selector:
     matchLabels:
@@ -897,7 +896,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-api
-  namespace: dify
+  namespace: dify-test
 spec:
   ports:
   - port: 5001
@@ -915,7 +914,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: dify-worker
-  namespace: dify
+  namespace: dify-test
   labels:
     app: dify-worker
     app.kubernetes.io/instance: dify-worker
@@ -1091,7 +1090,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-worker
-  namespace: dify
+  namespace: dify-test
 spec:
   ports:
   - protocol: TCP
@@ -1109,7 +1108,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dify-web
-  namespace: dify
+  namespace: dify-test
   labels:
     app: dify-web
 spec:
@@ -1178,7 +1177,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-web
-  namespace: dify
+  namespace: dify-test
 spec:
   ports:
   - port: 3000
@@ -1196,7 +1195,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: dify-nginx
-  namespace: dify
+  namespace: dify-test
 data:
   nginx.conf: |-
     user  nginx;
@@ -1333,7 +1332,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dify-nginx
-  namespace: dify
+  namespace: dify-test
   labels:
     app: dify-nginx
 spec:
@@ -1381,7 +1380,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: dify-nginx
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     app: dify-nginx
@@ -1395,7 +1394,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: dify-nginx-nodeport
-  namespace: dify
+  namespace: dify-test
 spec:
   selector:
     app: dify-nginx
@@ -1414,7 +1413,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dify-plugin-daemon
-  namespace: dify
+  namespace: dify-test
   labels:
     app: dify-plugin-daemon
 spec:
@@ -1529,7 +1528,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: dify-plugin-daemon
-  namespace: dify
+  namespace: dify-test
 spec:
   type: ClusterIP
   selector:
